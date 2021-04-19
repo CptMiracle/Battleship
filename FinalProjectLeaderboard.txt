@@ -1,0 +1,2 @@
+PLAYER = SCORE
+Aidan = 23
