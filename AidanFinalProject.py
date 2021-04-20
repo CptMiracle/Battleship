@@ -102,7 +102,7 @@ while main:
     player1_clicked_grids = []
     player2_clicked_grids = []
 
-    # global variables
+    # variables
     clock = pygame.time.Clock()
     screen_W = screen.get_width()
     screen_H = screen.get_height()
@@ -122,7 +122,7 @@ while main:
         rules_text = font_playmenu.render("Rules", True, WHITE)
         leaderboard_text = font_playmenu.render("Leaderboard", True, BLACK)
         settings_text = font_playmenu.render("Settings", True, WHITE)
-
+        #Display text to screen
         background_image = battleship_intro.get_rect()
         background_image.center = (screen_W / 2, screen_H / 2)
         screen.blit(battleship_intro, background_image)
@@ -156,6 +156,7 @@ while main:
 
         pygame.display.flip()
         for event in pygame.event.get():
+            #If player decides to exit the game, quit
             if event.type == pygame.QUIT:
                 main = False
                 intro = False
@@ -175,7 +176,7 @@ while main:
                 game_PVP_p1 = False
                 game_PVP_p2 = False
                 final = False
-
+            #If player clicks a button, go to another scene
             if event.type == pygame.MOUSEBUTTONUP:
                 if textRect2.collidepoint(pos):
                     play_menu = True
@@ -275,7 +276,7 @@ while main:
             "First player to sink all enemy ship wins", True, BLACK)
         instructs14 = font_instructions2.render(
             "White grids = clickable, Green grids = No enemy ship, Red grids = Enemy ship hit, Black grids = Enemy ship destroyed", True, BLACK)
-        instructs15 = font_instructions1.render("All ships are static and do not change position after the game starts", True, BLACK)
+        instructs15 = font_instructions1.render("All ships do not change position after the game starts", True, BLACK)
         instructs16 = font_instructions1.render("Have fun!", True, BLACK)
         goback_text = font_instructions1.render("Go Back", True, BLACK)
 
@@ -562,7 +563,7 @@ while main:
     submarine_on_grid = False
     small_ship_on_grid = False
 
-    #Row and Column grid values
+    #Row and Column grid values for ship snapping to the grids
     nearest_row = [250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750]
     nearest_col = [200, 252, 304, 356, 408, 460, 512, 564, 616, 668, 720]
 
@@ -602,7 +603,7 @@ while main:
 
 
     while game_setup:
-
+        #get mouse position
         pos = pygame.mouse.get_pos()
         mouse_x, mouse_y = pygame.mouse.get_pos()
         screen.fill(LIGHT_BLUE)
@@ -689,6 +690,7 @@ while main:
                         #offset_x and offset_y lets ship rects be dragged at any point of the rect without moving it to
                         #the top left corner everytime.
                         #offset contains the distance between the ship rect and the mouse position
+                        #in the end, the position of the ship is the mouse position and the offset value
                         rect_dragging = True
                         offset_x = battleship_rect.x - mouse_x
                         offset_y = battleship_rect.y - mouse_y
@@ -1196,8 +1198,8 @@ while main:
     player1_scene = True
     while game_PVP:
         pygame.mouse.set_cursor(pygame.cursors.broken_x)
+        #To indicate that it is player 1's turn
         while player1_scene:
-
             pos = pygame.mouse.get_pos()
             screen.fill(LIGHT_BLUE)
             font_title = pygame.font.SysFont("arial", 60)
@@ -1413,6 +1415,7 @@ while main:
                 pygame.draw.line(screen, BLACK, (50 + (i * 40.8), 200), (50 + (i * 40.8), screen_H - 200),
                                  5)  # vertical
 
+            #Vertical and Horizontal lines for the right side
             for i in range(11):
                 pygame.draw.line(screen, BLACK, (550, 200 + (i * 40)), (screen_W - 40, 200 + (i * 40)),
                                  5)  # horizontal lines
@@ -1428,11 +1431,13 @@ while main:
                     plane_pos += 5
                 plane_rect.center = (plane_pos, shooting_grid.y + 15)
                 screen.blit(plane, plane_rect)
+                #If plane has reached the selected grid, drop a "bomb"
                 if plane_pos >= shooting_grid.x:
                     pygame.draw.circle(screen, BLACK, (shooting_grid.x + 23, shooting_grid.y + 23),
                                        shooting_circle_size, 0)
                     shooting_circle_size -= 0.1
 
+                #If plane is out of view, depending on if it is a hit or miss, play an explosion or a splash
                 if plane_pos > 1500:
 
                     plane_pos = 0
@@ -1474,6 +1479,7 @@ while main:
                     game_PVP_p2 = False
                     final = False
 
+                #If mouse clicks on a grid
                 if event.type == pygame.MOUSEBUTTONUP:
                     for rect in right_side_rects:
                         if rect.collidepoint(pos):
@@ -1482,7 +1488,7 @@ while main:
                             plane_sound.play()
 
         while player2_scene:
-
+            #To indicate it is player 2's turn
             pos = pygame.mouse.get_pos()
             screen.fill(LIGHT_BLUE)
             font_title = pygame.font.SysFont("arial", 60)
@@ -1532,6 +1538,7 @@ while main:
         ship_hit = False
         ship_miss = False
         start = 0
+        #Reference to comments above
         while game_PVP_p2:
             screen.fill(LIGHT_BLUE)
             pos = pygame.mouse.get_pos()
@@ -1558,7 +1565,6 @@ while main:
 
             textRect3 = your_ships.get_rect()
             textRect3.center = (screen_W / 1.95, screen_H / 6)
-            # screen.blit(miss, textRect3)r
 
             textRect4 = your_ships.get_rect()
             textRect4.center = (screen_W / 1.9, screen_H / 6)
@@ -1571,7 +1577,6 @@ while main:
 
             for row in range(10):
                 for col in range(10):
-                    # pygame.draw.rect(screen, WHITE, (50 + (40 * row), 200 + (42 * col), 50, 50))
                     pygame.draw.rect(screen, WHITE, (52 + (40 * row), 198 + (40 * col), 45, 45))
 
 
@@ -1640,7 +1645,7 @@ while main:
                 player1_scene = False
                 final = True
 
-            if ship_hit:
+            if ship_hit: #Ship hit
                 screen.blit(hit, textRect4)
                 elapsedTime = int(time.perf_counter() - start)
                 if elapsedTime >= 1:
@@ -1649,7 +1654,7 @@ while main:
                     ship_miss = False
 
 
-            elif ship_miss:
+            elif ship_miss:# Ship missed
                 screen.blit(miss, textRect3)
                 elapsedTime = int(time.perf_counter() - start)
                 if elapsedTime >= 1:
@@ -1661,14 +1666,15 @@ while main:
                     game_PVP_p1 = True
 
 
-            # Display ships
+            # Display ships for the left side
             def display_ship_2(player_ship):
                 for ship in player_ship:
                     pygame.draw.rect(screen, BLUE, (52 + (40 * ship[0]), 198 + (40 * ship[1]), 44, 45))
-                for rect in player1_clicked_grids:
+                for rect in player1_clicked_grids: #If player2 fires at a grid, color it green
                     pygame.draw.rect(screen, GREEN,
                                      (52 + (40 * ((rect.x - 552) / 40)), 198 + (40 * ((rect.y - 198) / 40)), 45, 45))
                     for x in range(len(all_player2_ships)):
+                        #if player2 fires and hits a ship at a grid, color it red
                         if (rect.x - 552) / 40 == all_player2_ships[x][0] and (rect.y - 198) / 40 == \
                                 all_player2_ships[x][1]:
                             pygame.draw.rect(screen, RED, (
@@ -1681,6 +1687,7 @@ while main:
             display_ship_2(submarine_player2)
             display_ship_2(small_ship_player2)
 
+            #if cursor is on a rect, color it yellow
             for rect in right_side_rects:
                 if rect.collidepoint(pos):
                     pygame.draw.rect(screen, YELLOW, (rect.x, rect.y, 45, 45))
@@ -1691,13 +1698,14 @@ while main:
                                  5)  # horizontal lines
                 pygame.draw.line(screen, BLACK, (50 + (i * 40.8), 200), (50 + (i * 40.8), screen_H - 200),
                                  5)  # vertical
-
+            # Vertical and Horizontal lines for the right grids
             for i in range(11):
                 pygame.draw.line(screen, BLACK, (550, 200 + (i * 40)), (screen_W - 40, 200 + (i * 40)),
                                  5)  # horizontal lines
                 pygame.draw.line(screen, BLACK, (550 + (i * 40.8), 200), (550 + (i * 40.8), screen_H - 200),
                                  5)  # vertical
 
+            #If need be, reference from the earlier comments above
             if shooting:
                 for i in range(1, 6):
                     if i == destroyed_ships_p2 / 100:
@@ -1758,12 +1766,14 @@ while main:
                             shooting_grid = rect
                             plane_sound.play()
 
+    #Reference to comments above
+    #PvAI
     while game_AI:
         pygame.mouse.set_cursor(pygame.cursors.broken_x)
         ship_hit = False
         ship_miss = False
         start = 0
-
+        #Player 1
         while game_AI_p1:
             screen.fill(LIGHT_BLUE)
             pos = pygame.mouse.get_pos()
@@ -1807,9 +1817,7 @@ while main:
                     for x in range(len(player_ship)):
                         if rect.x == 552 + (40 * player_ship[x][0]) and rect.y == 198 + (40 * player_ship[x][1]):
                             grids_hit += 1
-                # print(str(player_ship)+" "+str(grids_hit))
-                # print(player_ship_name + " " + str(grids_hit))
-                # IT ISN'T THE PLAYER NAME! PLAYER_SHIPS IS THE COORDINATES
+
                 if player_ship == battleship_player2 and grids_hit == 4:
                     return True
                 elif player_ship == aircraft_carrier_player2 and grids_hit == 5:
@@ -1824,8 +1832,6 @@ while main:
 
 
             destroyed_ships_p1 = 0
-
-
             def display_ship_destroyed(player_ship):
                 global destroyed_ships_p1
                 if check_ship_destroyed(player_ship):
@@ -1884,7 +1890,7 @@ while main:
                 game_AI = False
                 final = True
 
-            if ship_hit:
+            if ship_hit: #ship hit
                 screen.blit(hit, textRect4)
                 elapsedTime = int(time.perf_counter() - start)
                 if elapsedTime >= 1:
@@ -1892,7 +1898,7 @@ while main:
                     ship_hit = False
                     ship_miss = False
 
-            elif ship_miss:
+            elif ship_miss: #ship miss
                 screen.blit(miss, textRect3)
                 elapsedTime = int(time.perf_counter() - start)
                 if elapsedTime >= 1:
@@ -1907,10 +1913,13 @@ while main:
             # Display ships
             def display_ship_1(player_ship):
                 for ship in player_ship:
+                    #If there is a ship, color the grids blue
                     pygame.draw.rect(screen, BLUE, (52 + (40 * ship[0]), 198 + (40 * ship[1]), 45, 45))
                 for rect in player2_clicked_grids:
+                    #If enemy fires at a grid, color it green
                     pygame.draw.rect(screen, GREEN, (rect.x, rect.y, 45, 45))
                     for x in range(len(all_player1_ships)):
+                        #If it hits a ship, color it red
                         if rect.x == 50 + (40 * all_player1_ships[x][0]) and rect.y == 198 + (
                                 40 * all_player1_ships[x][1]):
                             pygame.draw.rect(screen, RED, (rect.x, rect.y, 45, 45))
@@ -1922,6 +1931,7 @@ while main:
             display_ship_1(submarine_player1)
             display_ship_1(small_ship_player1)
 
+            #For player 1 only, if cursor is on a rect, color it yellow
             for rect in right_side_rects:
                 if rect.collidepoint(pos):
                     pygame.draw.rect(screen, YELLOW, (rect.x, rect.y, 45, 45))
@@ -1933,12 +1943,14 @@ while main:
                 pygame.draw.line(screen, BLACK, (50 + (i * 40.8), 200), (50 + (i * 40.8), screen_H - 200),
                                  5)  # vertical
 
+            #For right side
             for i in range(11):
                 pygame.draw.line(screen, BLACK, (550, 200 + (i * 40)), (screen_W - 40, 200 + (i * 40)),
                                  5)  # horizontal lines
                 pygame.draw.line(screen, BLACK, (550 + (i * 40.8), 200), (550 + (i * 40.8), screen_H - 200),
                                  5)  # vertical
 
+            #Reference code above if need be
             if shooting:
                 for i in range(1, 6):
                     if i <= destroyed_ships_p1 / 100 or i <= len(player1_clicked_grids)/10:
@@ -2005,6 +2017,7 @@ while main:
         start = 0
         selecting_grid = True
         plane_sound_play = True
+        #Computer plays
         while game_AI_p2:
             screen.fill(LIGHT_BLUE)
             pos = pygame.mouse.get_pos()
@@ -2031,7 +2044,6 @@ while main:
 
             textRect3 = your_ships.get_rect()
             textRect3.center = (screen_W / 1.85, screen_H / 6)
-            # screen.blit(miss, textRect3)r
 
             textRect4 = your_ships.get_rect()
             textRect4.center = (screen_W / 1.8, screen_H / 6)
@@ -2118,8 +2130,7 @@ while main:
                     if not already_clicked:
                         left_side_rects.append(new_rect)
 
-            # print("all_player1_ships "+str(len(all_player1_ships)))
-            # print(grids_hit_player2)
+            #Counts how many grids hit and see if the player wins
             if grids_hit_player2 >= (len(all_player1_ships)):  # Player 2 wins
                 winner = 2  # computer wins
                 game_AI_p1 = False
@@ -2184,7 +2195,7 @@ while main:
                 pygame.draw.line(screen, BLACK, (550 + (i * 40.8), 200), (550 + (i * 40.8), screen_H - 200),
                                  5)  # vertical
 
-            # Create an AI-algorithm for the computer to decide where to fire
+            #Computer randomly decides where to fire
             if selecting_grid:
                 shooting_grid = random.choice(left_side_rects)
                 shooting = True
@@ -2194,6 +2205,7 @@ while main:
                     if i <= destroyed_ships_p1 / 100 or i <= len(player1_clicked_grids)/10:
                         plane_pos -= 5 + (2 * i)
                 else:
+                    #Plane flies from the opposite (right) direction
                     plane_pos -= 5
                 if plane_sound_play:
                     plane_sound.play()
@@ -2204,6 +2216,7 @@ while main:
                     pygame.draw.circle(screen, BLACK, (shooting_grid.x + 23, shooting_grid.y + 23),
                                        shooting_circle_size, 0)
                     shooting_circle_size -= 0.1
+                #reset
                 if plane_pos < -500:
                     plane_pos = 1000
                     shooting_circle_size = 10
@@ -2220,7 +2233,6 @@ while main:
                         ship_miss = True
                         splash_sound.play()
                         start = time.perf_counter()
-                # pygame.time.delay()
             pygame.display.flip()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -2244,7 +2256,7 @@ while main:
                     final = False
 
 
-
+    #Checking for input
     def checkString(name):
         while True:
             try:
@@ -2258,6 +2270,7 @@ while main:
 
     global writeBoard
     pygame.mouse.set_cursor(pygame.cursors.tri_left)
+    #Final screen
     while final:
         pos = pygame.mouse.get_pos()
         screen.fill(LIGHT_BLUE)
@@ -2304,9 +2317,7 @@ while main:
             screen.fill(LIGHT_BLUE, (screen_W / 4.5, screen_H - screen_H / 3, 200, 150))
             screen.blit(yes_text, textRect4)
 
-
-
-
+        #Display winner
         if winner == 0:
             screen.blit(winner1_text, textRect1)
             screen.blit(leaderboard_message, textRect8)
@@ -2364,9 +2375,10 @@ while main:
                     game_PVP_p1 = False
                     game_PVP_p2 = False
                     final = False
-
+                #Open up leaderboard if Player1 or Player 2 wins
                 elif textRect8.collidepoint(pos):
                     if winner == 0 or winner == 1:
+                        #open file, a+ means to append to the current file
                         writeBoard = open('../FinalProject/FinalProjectLeaderboard.txt', 'a+')
                         main = False
                         intro = False
@@ -2394,7 +2406,7 @@ while main:
                             writeBoard.write(name + " = " + str(len(player1_clicked_grids)) + "\n")
                         elif winner == 1:
                             writeBoard.write(name + " = " + str(len(player2_clicked_grids)) + "\n")
-
+                        #close file
                         writeBoard.close()
 # quit pygame and exit the program (i.e. close everything down)
 
