@@ -1,9 +1,8 @@
 # Author: Aidan Huang
 # Date: April 20, 2021
 # Battleship
-# Battleship game created using pygame and python
 
-# import the necessary modules
+
 import random
 import time
 
@@ -11,7 +10,6 @@ import pygame
 import sys
 
 
-# initialize pygame
 pygame.init()
 
 # set the size for the surface (screen)
