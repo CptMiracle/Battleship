@@ -5,7 +5,7 @@ Battleship game using Python
 ------------------------------------------------------------------------------------------------------------------------
 
 Maximum of 2 players.
-Payer(s) have the option to start playing (PvP or AI).
+Player(s) have the option to start playing (PvP or AI).
 Ships can not be diagonal, overlap other ships, or be out of bounds.
 Ships are static and cannot move position when the game starts (anchored).
 
