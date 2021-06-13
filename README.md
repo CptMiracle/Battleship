@@ -1,7 +1,6 @@
 # Battleship
 
 Battleship game using Python
-NOTE: Game may slow down drastically whilst playing (yeah optimization sucks).
 
 ------------------------------------------------------------------------------------------------------------------------
 
