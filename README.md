@@ -1,4 +1,4 @@
-# Battleship
+# Dreadnoughts
 
 Battleship game using Python & Pygame
 
